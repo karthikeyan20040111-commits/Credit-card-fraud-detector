@@ -1,0 +1,6 @@
+@echo off
+cd "c:\Users\Karth\OneDrive\create card\fraud"
+echo Clearing Next.js cache...
+rmdir /s /q .next 2>nul
+echo Starting FraudGuard AI server...
+npm run dev
