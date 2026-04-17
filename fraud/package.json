@@ -54,7 +54,12 @@
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.5.0",
     "vaul": "^1.1.2",
-    "zod": "^4.3.6"
+    "zod": "^4.3.6",
+    "@react-pdf/renderer": "latest",
+    "d3": "latest",
+    "react-markdown": "latest",
+    "react-simple-maps": "latest",
+    "socket.io-client": "latest"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -64,6 +69,8 @@
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "@types/d3": "latest",
+    "@types/react-simple-maps": "latest"
   }
 }
