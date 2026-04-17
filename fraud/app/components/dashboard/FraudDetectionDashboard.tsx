@@ -1,7 +1,9 @@
 'use client';
 
-import { Shield, TrendingUp, AlertTriangle, CheckCircle } from 'lucide-react';
+import { Shield, TrendingUp, AlertTriangle, CheckCircle, Activity } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { useTheme } from 'next-themes';
 
 interface StatCardProps {
   title: string;
@@ -33,13 +35,26 @@ function StatCard({ title, value, subtitle, icon, iconBg, trend, trendUp }: Stat
   );
 }
 
+const initialChartData = [
+  { time: '10:00', volume: 400, fraud: 24 },
+  { time: '10:05', volume: 300, fraud: 13 },
+  { time: '10:10', volume: 200, fraud: 18 },
+  { time: '10:15', volume: 278, fraud: 39 },
+  { time: '10:20', volume: 189, fraud: 8 },
+  { time: '10:25', volume: 239, fraud: 18 },
+  { time: '10:30', volume: 349, fraud: 23 },
+];
+
 export function FraudDetectionDashboard() {
+  const { theme } = useTheme();
   const [counts, setCounts] = useState({
     total: 12847,
     legit: 12695,
     fraud: 152,
     saved: 284550,
   });
+  
+  const [chartData, setChartData] = useState(initialChartData);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -49,9 +64,30 @@ export function FraudDetectionDashboard() {
         fraud: prev.fraud + (Math.random() > 0.8 ? 1 : 0),
         saved: prev.saved + Math.floor(Math.random() * 500),
       }));
+
+      // Simulate live chart data
+      setChartData(prev => {
+        const newData = [...prev.slice(1)];
+        const lastTime = prev[prev.length - 1].time;
+        const [hh, mm] = lastTime.split(':').map(Number);
+        const nextMin = (mm + 5) % 60;
+        const nextH = nextMin === 0 ? (hh + 1) % 24 : hh;
+        const timeStr = `${String(nextH).padStart(2, '0')}:${String(nextMin).padStart(2, '0')}`;
+        
+        newData.push({
+          time: timeStr,
+          volume: Math.floor(Math.random() * 200) + 150,
+          fraud: Math.floor(Math.random() * 40) + 5,
+        });
+        return newData;
+      });
     }, 5000);
     return () => clearInterval(interval);
   }, []);
+
+  const tooltipBg = theme === 'dark' ? '#1e293b' : '#ffffff';
+  const tooltipBorder = theme === 'dark' ? '#334155' : '#e2e8f0';
+  const tooltipText = theme === 'dark' ? '#f8fafc' : '#0f172a';
 
   return (
     <div id="dashboard">
@@ -106,6 +142,41 @@ export function FraudDetectionDashboard() {
           trend="+12.4%"
           trendUp
         />
+      </div>
+
+      {/* Chart Section */}
+      <div className="section-card" style={{ marginTop: '28px' }}>
+        <div className="section-card-header">
+          <div className="section-title">
+            <Activity size={18} color="#4f46e5" />
+            Live Transaction Volume
+          </div>
+        </div>
+        <div className="section-card-body" style={{ height: '350px', width: '100%' }}>
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart data={chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+              <defs>
+                <linearGradient id="colorVolume" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#4f46e5" stopOpacity={0.3}/>
+                  <stop offset="95%" stopColor="#4f46e5" stopOpacity={0}/>
+                </linearGradient>
+                <linearGradient id="colorFraud" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#ef4444" stopOpacity={0.3}/>
+                  <stop offset="95%" stopColor="#ef4444" stopOpacity={0}/>
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--color-border)" />
+              <XAxis dataKey="time" axisLine={false} tickLine={false} tick={{ fill: 'var(--color-text-muted)', fontSize: 12 }} />
+              <YAxis axisLine={false} tickLine={false} tick={{ fill: 'var(--color-text-muted)', fontSize: 12 }} />
+              <Tooltip 
+                contentStyle={{ backgroundColor: tooltipBg, borderColor: tooltipBorder, color: tooltipText, borderRadius: '8px' }}
+                itemStyle={{ color: tooltipText }}
+              />
+              <Area type="monotone" dataKey="volume" stroke="#4f46e5" strokeWidth={2} fillOpacity={1} fill="url(#colorVolume)" />
+              <Area type="monotone" dataKey="fraud" stroke="#ef4444" strokeWidth={2} fillOpacity={1} fill="url(#colorFraud)" />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
       </div>
     </div>
   );

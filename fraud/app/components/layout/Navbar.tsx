@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Shield, Menu, X, LayoutDashboard, CreditCard, ListChecks, Info, LogIn, User, LogOut } from 'lucide-react';
+import { useState, useEffect, useEffect as useMounted } from 'react';
+import { Shield, Menu, X, LayoutDashboard, CreditCard, ListChecks, Info, LogIn, User, LogOut, Sun, Moon } from 'lucide-react';
+import { useTheme } from 'next-themes';
 
 interface NavbarProps {
   onLoginClick: () => void;
@@ -20,8 +21,11 @@ const navLinks = [
 export function Navbar({ onLoginClick, isLoggedIn, username, onLogout }: NavbarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const onScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
@@ -39,7 +43,7 @@ export function Navbar({ onLoginClick, isLoggedIn, username, onLogout }: NavbarP
   return (
     <>
       {/* Top Navbar */}
-      <header className={`top-navbar ${scrolled ? 'scrolled' : ''}`}>
+      <header className={`top-navbar glass ${scrolled ? 'scrolled' : ''}`} style={{ width: '90%', margin: '14px auto', borderRadius: '18px', position: 'fixed', top: 0, left: '5%', right: '5%' }}>
         {/* Logo */}
         <div className="navbar-logo">
           <div className="navbar-logo-icon">
@@ -68,6 +72,17 @@ export function Navbar({ onLoginClick, isLoggedIn, username, onLogout }: NavbarP
 
         {/* Right side */}
         <div className="navbar-right">
+          {mounted && (
+            <button 
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              className="btn btn-secondary btn-sm"
+              style={{ padding: '6px 10px', borderRadius: '50%' }}
+              aria-label="Toggle Theme"
+            >
+              {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
+          )}
+          
           {isLoggedIn ? (
             <>
               <div className="navbar-user-pill">

@@ -10,6 +10,7 @@ import { FraudDetectionDashboard }  from './components/dashboard/FraudDetectionD
 import { RecentTransactions }       from './components/dashboard/RecentTransactions';
 import { TransactionChecker }       from './components/forms/TransactionChecker';
 import { LoginModal }               from './components/forms/LoginModal';
+import { AIChatbox }                from './components/ui/AIChatbox';
 
 export default function App() {
   const [loginOpen, setLoginOpen] = useState(false);
@@ -40,7 +41,7 @@ export default function App() {
       />
 
       {/* Main Content — single column */}
-      <main className="main-content">
+      <main className="main-content" style={{ paddingTop: '80px' }}>
         {/* Hero Banner */}
         <HeroSection />
 
@@ -58,6 +59,9 @@ export default function App() {
         {/* Footer */}
         <Footer />
       </main>
+
+      {/* Floating AI Chatbox */}
+      <AIChatbox />
     </div>
   );
 }
