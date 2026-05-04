@@ -1,117 +1,128 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { AlertTriangle, CheckCircle, RefreshCw, Clock } from 'lucide-react';
+import { useState } from 'react';
+import { Search, Download, CheckCircle, AlertCircle, Tag, MapPin, Calendar } from 'lucide-react';
 
 interface Transaction {
   id: string;
-  amount: number;
+  dateTime: string;
+  merchant: string;
   location: string;
-  time: string;
-  status: 'safe' | 'fraud';
-  cardLast4: string;
-  riskScore: number;
+  amount: number;
+  status: 'Safe' | 'Fraud';
 }
 
 const MOCK_TRANSACTIONS: Transaction[] = [
-  { id: 'TX001', amount: 125.50,   location: 'New York, USA',    time: '10:30 AM', status: 'safe',  cardLast4: '4532', riskScore: 12 },
-  { id: 'TX002', amount: 15820.00, location: 'Lagos, Nigeria',   time: '02:15 AM', status: 'fraud', cardLast4: '4532', riskScore: 87 },
-  { id: 'TX003', amount: 84.99,    location: 'London, UK',       time: '08:45 AM', status: 'safe',  cardLast4: '9921', riskScore: 5  },
-  { id: 'TX004', amount: 6500.00,  location: 'Moscow, Russia',   time: '11:20 PM', status: 'fraud', cardLast4: '1024', riskScore: 78 },
-  { id: 'TX005', amount: 45.00,    location: 'Tokyo, Japan',     time: '09:10 AM', status: 'safe',  cardLast4: '8832', riskScore: 2  },
+  { id: 'TXN-141628', dateTime: '2026-04-02 03:28', merchant: 'Apple Store',  location: 'Berlin, Germany',    amount: 119.33,  status: 'Safe'  },
+  { id: 'TXN-237546', dateTime: '2026-04-02 00:28', merchant: 'Best Buy',     location: 'Berlin, Germany',    amount: 40.62,   status: 'Safe'  },
+  { id: 'TXN-181275', dateTime: '2026-04-01 14:28', merchant: 'Best Buy',     location: 'Paris, France',      amount: 80.62,   status: 'Safe'  },
+  { id: 'TXN-347650', dateTime: '2026-04-01 04:28', merchant: 'Amazon',       location: 'Paris, France',      amount: 186.55,  status: 'Safe'  },
+  { id: 'TXN-921131', dateTime: '2026-03-31 10:28', merchant: 'Amazon',       location: 'Paris, France',      amount: 164.82,  status: 'Safe'  },
+  { id: 'TXN-314678', dateTime: '2026-03-31 09:28', merchant: 'Apple Store',  location: 'Tokyo, Japan',       amount: 1799.31, status: 'Fraud' },
+  { id: 'TXN-289025', dateTime: '2026-03-29 16:28', merchant: 'Uber',         location: 'New York, USA',      amount: 1034.63, status: 'Fraud' },
+  { id: 'TXN-228067', dateTime: '2026-03-29 16:28', merchant: 'Best Buy',     location: 'Sydney, Australia',  amount: 31.46,   status: 'Safe'  },
+  { id: 'TXN-423726', dateTime: '2026-03-29 05:28', merchant: 'Walmart',      location: 'Mumbai, India',      amount: 126.91,  status: 'Safe'  },
+  { id: 'TXN-889502', dateTime: '2026-03-28 23:28', merchant: 'Netflix',      location: 'Mumbai, India',      amount: 8.01,    status: 'Safe'  },
 ];
 
 export function RecentTransactions() {
-  const [transactions, setTransactions] = useState<Transaction[]>(MOCK_TRANSACTIONS);
-  const [loading, setLoading] = useState(false);
-  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const [search, setSearch] = useState('');
+  const [date, setDate] = useState('');
+  const [statusFilter, setStatusFilter] = useState('All Statuses');
 
-  useEffect(() => {
-    setLastUpdated(new Date());
-  }, []);
-
-  const refresh = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setTransactions([...MOCK_TRANSACTIONS].sort(() => Math.random() - 0.5));
-      setLastUpdated(new Date());
-      setLoading(false);
-    }, 600);
-  };
-
-  const getRiskClass = (score: number) =>
-    score > 50 ? 'high' : score > 30 ? 'mid' : 'low';
+  const filtered = MOCK_TRANSACTIONS.filter((tx) => {
+    const matchSearch =
+      search === '' ||
+      tx.id.toLowerCase().includes(search.toLowerCase()) ||
+      tx.merchant.toLowerCase().includes(search.toLowerCase());
+    const matchStatus = statusFilter === 'All Statuses' || tx.status === statusFilter;
+    return matchSearch && matchStatus;
+  });
 
   return (
-    <div id="transactions" className="section-card">
-      <div className="section-card-header">
-        <div>
-          <h2 className="section-title">
-            <Clock size={17} style={{ opacity: 0.7 }} />
-            Recent Transaction Analysis
-          </h2>
-          <p className="section-subtitle">
-            Last updated: {lastUpdated ? lastUpdated.toLocaleTimeString() : '—'}
-          </p>
+    <div className="txn-page">
+      {/* Filter Bar */}
+      <div className="txn-filters">
+        <div className="txn-search-wrap">
+          <Search size={15} className="txn-search-icon" />
+          <input
+            className="txn-search-input"
+            placeholder="Search by ID or Merchant..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
         </div>
-        <button
-          onClick={refresh}
-          disabled={loading}
-          className="btn btn-secondary btn-sm"
+
+        <div className="txn-date-wrap">
+          <input
+            type="date"
+            className="txn-date-input"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            placeholder="dd-mm-yyyy"
+          />
+          <Calendar size={15} className="txn-date-icon" />
+        </div>
+
+        <select
+          className="txn-status-select"
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
         >
-          <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
-          Refresh
+          <option>All Statuses</option>
+          <option>Safe</option>
+          <option>Fraud</option>
+        </select>
+
+        <button className="txn-export-btn">
+          <Download size={14} />
+          Export
         </button>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="data-table">
+      {/* Table */}
+      <div className="txn-table-wrap">
+        <table className="txn-table">
           <thead>
             <tr>
-              <th>TX ID</th>
-              <th>Amount</th>
-              <th>Location</th>
-              <th>Time</th>
-              <th>Card</th>
-              <th>Risk Score</th>
-              <th>Status</th>
+              <th>TRANSACTION ID</th>
+              <th>DATE &amp; TIME</th>
+              <th>MERCHANT</th>
+              <th>LOCATION</th>
+              <th>AMOUNT</th>
+              <th>STATUS</th>
+              <th>ACTION</th>
             </tr>
           </thead>
           <tbody>
-            {transactions.map((tx) => (
+            {filtered.map((tx) => (
               <tr key={tx.id}>
-                <td style={{ fontWeight: 700, color: 'var(--color-indigo-600)' }}>
-                  {tx.id}
+                <td className="txn-id">{tx.id}</td>
+                <td className="txn-datetime">{tx.dateTime}</td>
+                <td className="txn-merchant">
+                  <Tag size={13} className="txn-merchant-icon" />
+                  {tx.merchant}
                 </td>
-                <td style={{ fontWeight: 700, color: 'var(--color-slate-900)' }}>
-                  ${tx.amount.toFixed(2)}
+                <td className="txn-location">
+                  <MapPin size={13} className="txn-location-icon" />
+                  {tx.location}
                 </td>
-                <td>{tx.location}</td>
-                <td>{tx.time}</td>
-                <td className="font-mono" style={{ color: 'var(--color-text-muted)' }}>
-                  ****{tx.cardLast4}
-                </td>
+                <td className="txn-amount">${tx.amount.toFixed(2)}</td>
                 <td>
-                  <div className="risk-bar-wrap">
-                    <div className="risk-bar-track">
-                      <div
-                        className={`risk-bar-fill ${getRiskClass(tx.riskScore)}`}
-                        style={{ width: `${tx.riskScore}%` }}
-                      />
-                    </div>
-                    <span className="risk-pct">{tx.riskScore}%</span>
-                  </div>
-                </td>
-                <td>
-                  {tx.status === 'safe' ? (
-                    <span className="badge badge-success">
-                      <CheckCircle size={12} /> Safe
+                  {tx.status === 'Safe' ? (
+                    <span className="txn-badge safe">
+                      <CheckCircle size={12} />
+                      Safe
                     </span>
                   ) : (
-                    <span className="badge badge-danger">
-                      <AlertTriangle size={12} /> Fraud
+                    <span className="txn-badge fraud">
+                      <AlertCircle size={12} />
+                      Fraud
                     </span>
                   )}
+                </td>
+                <td>
+                  <button className="txn-review-btn">Review</button>
                 </td>
               </tr>
             ))}

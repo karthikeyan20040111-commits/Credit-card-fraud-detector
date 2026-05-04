@@ -21,7 +21,7 @@ const navLinks = [
 export function Navbar({ onLoginClick, isLoggedIn, username, onLogout }: NavbarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { theme, setTheme } = useTheme();
+  const { theme, resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -74,12 +74,12 @@ export function Navbar({ onLoginClick, isLoggedIn, username, onLogout }: NavbarP
         <div className="navbar-right">
           {mounted && (
             <button 
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
               className="btn btn-secondary btn-sm"
               style={{ padding: '6px 10px', borderRadius: '50%' }}
               aria-label="Toggle Theme"
             >
-              {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+              {resolvedTheme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
             </button>
           )}
           

@@ -1,7 +1,5 @@
 import numpy as np
-import tensorflow as tf
 from tensorflow.keras import layers, models
-import pandas as pd
 
 def build_autoencoder(input_dim):
     # Input->64->32->16->32->64->Output

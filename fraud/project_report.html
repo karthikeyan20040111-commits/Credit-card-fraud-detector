@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FraudGuard AI - Project Report</title>
+    <style>
+        body { font-family: "Times New Roman", Times, serif; font-size: 12pt; line-height: 1.5; color: black; background: #f0f0f0; margin: 0; padding: 0; }
+        .page { width: 210mm; min-height: 297mm; padding: 25mm 25mm 25mm 25mm; margin: 10mm auto; background: white; box-sizing: border-box; page-break-after: always; position: relative; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .text-center { text-align: center; }
+        .text-justify { text-align: justify; }
+        .text-right { text-align: right; }
+        .text-left { text-align: left; }
+        .font-bold { font-weight: bold; }
+        h1, h2, h3, h4 { text-align: center; margin-top: 20px; margin-bottom: 20px; }
+        .chapter-title { margin-top: 100px; text-transform: uppercase; font-size: 16pt; font-weight: bold; }
+        .section-title { text-align: left; font-size: 14pt; font-weight: bold; text-transform: uppercase; margin-top: 30px; }
+        .subsection-title { text-align: left; font-size: 13pt; font-weight: bold; margin-top: 20px; }
+        p { text-indent: 0; margin-bottom: 15px; }
+        .indent-p { text-indent: 50px; }
+        ul { margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; margin-bottom: 20px; page-break-inside: avoid; }
+        th, td { border: 1px solid black; padding: 10px; text-align: left; }
+        th { text-align: center; font-weight: bold; }
+        .toc-entry { display: flex; justify-content: space-between; margin-bottom: 8px; }
+        .toc-entry span { flex-shrink: 0; }
+        .toc-entry .dots { flex-grow: 1; border-bottom: 1px dotted black; margin: 0 10px; position: relative; top: -6px; }
+        .page-num { position: absolute; top: 15mm; right: 25mm; font-size: 12pt; }
+        
+        .img-placeholder { border: 1px dashed black; background: #fafafa; padding: 50px; text-align: center; color: #888; margin: 20px 0; }
+        
+        @media print {
+            body { background: white; margin: 0; }
+            .page { margin: 0; border: initial; border-radius: initial; width: initial; min-height: initial; box-shadow: initial; page-break-after: always; padding: 25mm; }
+            .page-num { position: fixed; top: 15mm; right: 25mm; font-size: 12pt; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PAGE 1: TITLE PAGE -->
+    <div class="page text-center">
+        <br><br><br>
+        <h2 style="font-size: 18pt;">FRAUDGUARD AI: CREDIT CARD FRAUD DETECTION SYSTEM</h2>
+        <br><br><br>
+        <h3 style="font-size: 14pt;">A PROJECT REPORT</h3>
+        <br><br>
+        <p><i>Submitted By</i></p>
+        <br><br>
+        <h3 style="font-size: 14pt;">KARTHIKEYAN</h3>
+        <p style="margin-top:-15px;"><b>(Register Number)</b></p>
+        <br><br><br>
+        <p><i>In partial fulfilment for the award of the degree</i></p>
+        <br><br>
+        <p><i>of</i></p>
+        <br><br>
+        <h3 style="font-size: 16pt;">BACHELOR OF ENGINEERING</h3>
+        <br><br>
+        <h3 style="font-size: 14pt;">IN</h3>
+        <br><br>
+        <h3 style="font-size: 14pt;">COMPUTER SCIENCE AND ENGINEERING</h3>
+        <br><br><br>
+        <h3 style="font-size: 14pt;">JAYA ENGINEERING COLLEGE, THIRUNINRAVUR</h3>
+        <br><br>
+        <h3 style="font-size: 14pt;">ANNA UNIVERSITY: CHENNAI &ndash; 600 025</h3>
+        <br><br>
+        <h3 style="font-size: 14pt;">APRIL 2026</h3>
+    </div>
+
+    <!-- PAGE 2: BLANK PAGE -->
+    <div class="page">
+        <!-- Blank Page -->
+    </div>
+
+    <!-- PAGE 3: BONAFIDE CERTIFICATE -->
+    <div class="page text-center">
+        <div class="page-num">ii</div>
+        <br><br>
+        <h3 style="font-size: 16pt;">ANNA UNIVERSITY: CHENNAI &ndash; 600 025</h3>
+        <br><br>
+        <h3 style="font-size: 16pt;">BONAFIDE CERTIFICATE</h3>
+        <br><br>
+        <p class="text-justify" style="line-height: 2;">
+            Certified that this project work titled <b>&ldquo;FRAUDGUARD AI: CREDIT CARD FRAUD DETECTION SYSTEM&rdquo;</b> is the bonafide work of <b>KARTHIKEYAN (Register Number)</b> who carried out the project work under my supervision.
+        </p>
+        <br><br><br><br><br><br>
+        <div style="display: flex; justify-content: space-between; text-align: left;">
+            <div>
+                <p><b>[HOD NAME]</b></p>
+                <p>Head of the Department,</p>
+                <p>Department of CSE,</p>
+                <p>Jaya Engineering College,</p>
+                <p>Thiruninravur &ndash; 602 024.</p>
+            </div>
+            <div>
+                <p><b>[SUPERVISOR NAME]</b></p>
+                <p>Supervisor, Assistant Prof</p>
+                <p>Department of CSE,</p>
+                <p>Jaya Engineering College,</p>
+                <p>Thiruninravur &ndash; 602 024.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 4: VIVA VOCE -->
+    <div class="page text-center">
+        <div class="page-num">iii</div>
+        <br><br>
+        <h3 style="font-size: 16pt;">ANNA UNIVERSITY: CHENNAI 600025</h3>
+        <br><br>
+        <h3 style="font-size: 16pt;">VIVA VOCE EXAMINATION</h3>
+        <br><br>
+        <p class="text-justify" style="line-height: 2;">
+            The viva-voce examination of the project work titled <b>&ldquo;FRAUDGUARD AI: CREDIT CARD FRAUD DETECTION SYSTEM&rdquo;</b> submitted by <b>KARTHIKEYAN (Register Number)</b> was held on ______________.
+        </p>
+        <br><br><br><br><br><br><br><br><br><br>
+        <div style="display: flex; justify-content: space-between; text-align: center; font-weight: bold;">
+            <div>INTERNAL EXAMINER</div>
+            <div>EXTERNAL EXAMINER</div>
+        </div>
+    </div>
+
+    <!-- PAGE 5: ABSTRACT -->
+    <div class="page">
+        <div class="page-num">iv</div>
+        <br><br>
+        <h3 style="font-size: 16pt;" class="text-center">ABSTRACT</h3>
+        <br>
+        <p class="text-justify indent-p">
+            The proliferation of digital transactions and online banking has emerged as a critical societal challenge in the modern financial age due to the exponential rise in credit card fraud. This project presents a comprehensive AI-driven FraudGuard System that integrates modern web technologies and heuristic machine learning simulations to automatically detect fraudulent transactions and identify suspicious behavioral patterns. The system employs heuristic rule engines mimicking Random Forest and XGBoost algorithms combined with sophisticated data processing pipelines to extract, analyze, and authenticate financial transactions through multiple parallel detection mechanisms.
+        </p>
+        <p class="text-justify indent-p">
+            The proposed system implements a complete pipeline architecture that processes real-time transaction data through sequential stages of validation, parameter extraction, risk assessment, confidence scoring, and Explainable AI (SHAP) analysis. The backend infrastructure utilizes Next.js API Routes for efficient bridging, while the frontend leverages React, Tailwind CSS, and Recharts for dynamic data visualization. The system generates comprehensive analytics including transaction volume charts, SHAP-based impact assessments, and risk indexes, presented through an interactive and highly responsive glassmorphic dashboard interface.
+        </p>
+    </div>
+
+    <!-- PAGE 6: TOC -->
+    <div class="page">
+        <div class="page-num">v</div>
+        <br><br>
+        <h3 style="font-size: 16pt;" class="text-center">TABLE OF CONTENTS</h3>
+        <br>
+        
+        <div class="toc-entry font-bold"><span>ABSTRACT</span><div class="dots"></div><span>iv</span></div>
+        <div class="toc-entry font-bold"><span>LIST OF TABLES</span><div class="dots"></div><span>vii</span></div>
+        <div class="toc-entry font-bold"><span>LIST OF FIGURES</span><div class="dots"></div><span>viii</span></div>
+        <div class="toc-entry font-bold"><span>LIST OF SYMBOLS, ABBREVIATIONS & DEFINITIONS</span><div class="dots"></div><span>ix</span></div>
+        
+        <br>
+        <div class="toc-entry font-bold"><span>1. INTRODUCTION</span><div class="dots"></div><span>1</span></div>
+        <div class="toc-entry" style="padding-left: 20px;"><span>1.1 System Overview</span><div class="dots"></div><span>2</span></div>
+        <div class="toc-entry" style="padding-left: 20px;"><span>1.2 Objective</span><div class="dots"></div><span>2</span></div>
+        <div class="toc-entry" style="padding-left: 20px;"><span>1.3 System Study</span><div class="dots"></div><span>3</span></div>
+        <div class="toc-entry" style="padding-left: 40px;"><span>1.3.1 Existing System</span><div class="dots"></div><span>3</span></div>
+        <div class="toc-entry" style="padding-left: 40px;"><span>1.3.2 Literature Survey</span><div class="dots"></div><span>4</span></div>
+        <div class="toc-entry" style="padding-left: 40px;"><span>1.3.3 Proposed System</span><div class="dots"></div><span>6</span></div>
+        <div class="toc-entry" style="padding-left: 20px;"><span>1.4 Organization of the Report</span><div class="dots"></div><span>7</span></div>
+
+        <br>
+        <div class="toc-entry font-bold"><span>2. SOFTWARE REQUIREMENTS SPECIFICATION</span><div class="dots"></div><span>8</span></div>
+        <div class="toc-entry" style="padding-left: 20px;"><span>2.1 External Interface Requirements</span><div class="dots"></div><span>9</span></div>
+        <div class="toc-entry" style="padding-left: 20px;"><span>2.2 System Features</span><div class="dots"></div><span>10</span></div>
+        <div class="toc-entry" style="padding-left: 40px;"><span>2.2.1 User Interface</span><div class="dots"></div><span>10</span></div>
+        <div class="toc-entry" style="padding-left: 40px;"><span>2.2.2 Hardware Requirements</span><div class="dots"></div><span>11</span></div>
+        <div class="toc-entry" style="padding-left: 40px;"><span>2.2.3 Software Requirements</span><div class="dots"></div><span>12</span></div>
+    </div>
+
+    <!-- PAGE 7: TOC (Cont.) -->
+    <div class="page">
+        <div class="page-num">vi</div>
+        <br><br>
+        <div class="toc-entry" style="padding-left: 20px;"><span>2.3 Other Non-Functional Requirements</span><div class="dots"></div><span>16</span></div>
+
+        <br>
+        <div class="toc-entry font-bold"><span>3. SOFTWARE DESIGN</span><div class="dots"></div><span>18</span></div>
+        <div class="toc-entry" style="padding-left: 20px;"><span>3.1 Architectural Design</span><div class="dots"></div><span>19</span></div>
+        <div class="toc-entry" style="padding-left: 20px;"><span>3.2 Decomposition Description</span><div class="dots"></div><span>22</span></div>
+        <div class="toc-entry" style="padding-left: 20px;"><span>3.3 Component Design</span><div class="dots"></div><span>25</span></div>
+        <div class="toc-entry" style="padding-left: 20px;"><span>3.4 Data Design</span><div class="dots"></div><span>27</span></div>
+
+        <br>
+        <div class="toc-entry font-bold"><span>4. SYSTEM IMPLEMENTATION</span><div class="dots"></div><span>34</span></div>
+        
+        <br>
+        <div class="toc-entry font-bold"><span>5. TESTING AND VALIDATION</span><div class="dots"></div><span>37</span></div>
+        
+        <br>
+        <div class="toc-entry font-bold"><span>6. RESULTS AND DISCUSSION</span><div class="dots"></div><span>44</span></div>
+        
+        <br>
+        <div class="toc-entry font-bold"><span>7. CONCLUSION AND FUTURE WORK</span><div class="dots"></div><span>46</span></div>
+        
+        <br>
+        <div class="toc-entry font-bold"><span>APPENDIX</span><div class="dots"></div><span>48</span></div>
+        
+        <br>
+        <div class="toc-entry font-bold"><span>REFERENCE</span><div class="dots"></div><span>55</span></div>
+    </div>
+
+    <!-- PAGE 8: LIST OF TABLES -->
+    <div class="page">
+        <div class="page-num">vii</div>
+        <br><br>
+        <h3 style="font-size: 16pt;" class="text-center">LIST OF TABLES</h3>
+        <br>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 10%;">S.No</th>
+                    <th>Table Name</th>
+                    <th style="width: 20%;">Page No.</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td class="text-center">5.1</td><td>Unit Testing for manual transaction check</td><td class="text-center">38</td></tr>
+                <tr><td class="text-center">5.2</td><td>Unit Testing for fraud detection heuristics module</td><td class="text-center">39</td></tr>
+                <tr><td class="text-center">5.3</td><td>Integration Testing for dashboard analytics</td><td class="text-center">41</td></tr>
+                <tr><td class="text-center">5.4</td><td>System testing for FraudGuard AI system</td><td class="text-center">42</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- PAGE 9: LIST OF FIGURES -->
+    <div class="page">
+        <div class="page-num">viii</div>
+        <br><br>
+        <h3 style="font-size: 16pt;" class="text-center">LIST OF FIGURES</h3>
+        <br>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 10%;">S.No</th>
+                    <th>Table Name</th>
+                    <th style="width: 20%;">Page No.</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td class="text-center">3.1</td><td>System Architecture</td><td class="text-center">19</td></tr>
+                <tr><td class="text-center">3.2</td><td>Use Case Diagram</td><td class="text-center">21</td></tr>
+                <tr><td class="text-center">3.3</td><td>Sequence Diagram</td><td class="text-center">22</td></tr>
+                <tr><td class="text-center">3.4</td><td>Flow diagram for transaction integration</td><td class="text-center">23</td></tr>
+                <tr><td class="text-center">3.5</td><td>Flow diagram for heuristic engine</td><td class="text-center">24</td></tr>
+                <tr><td class="text-center">3.6</td><td>Sequence diagram for stored results</td><td class="text-center">25</td></tr>
+                <tr><td class="text-center">3.7</td><td>Transaction Input Screen</td><td class="text-center">29</td></tr>
+                <tr><td class="text-center">3.8</td><td>SHAP Analysis Screen</td><td class="text-center">30</td></tr>
+                <tr><td class="text-center">A.1</td><td>Dashboard main page</td><td class="text-center">48</td></tr>
+                <tr><td class="text-center">A.2</td><td>Live Analytics Chart page</td><td class="text-center">49</td></tr>
+                <tr><td class="text-center">A.3</td><td>Explainability Panel</td><td class="text-center">50</td></tr>
+                <tr><td class="text-center">A.4</td><td>Alert Engine View</td><td class="text-center">51</td></tr>
+                <tr><td class="text-center">A.5</td><td>Settings / Report page</td><td class="text-center">52</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- PAGE 10: LIST OF SYMBOLS -->
+    <div class="page">
+        <div class="page-num">ix</div>
+        <br><br>
+        <h3 style="font-size: 16pt;" class="text-center">LIST OF SYMBOLS, ABBREVIATIONS AND DEFINITIONS</h3>
+        <br>
+        <h4 class="text-left">SYMBOLS</h4>
+        <p><i>Standard flow chart symbols representing External Entities, Use Cases, Data Flows, and Actors.</i></p>
+        <br>
+        <h4 class="text-left">ABBREVIATIONS</h4>
+        <div style="display: grid; grid-template-columns: 100px 20px auto; gap: 10px;">
+            <div class="font-bold">AI</div><div>:</div><div>Artificial Intelligence</div>
+            <div class="font-bold">ML</div><div>:</div><div>Machine Learning</div>
+            <div class="font-bold">SHAP</div><div>:</div><div>SHapley Additive exPlanations</div>
+            <div class="font-bold">API</div><div>:</div><div>Application Programming Interface</div>
+            <div class="font-bold">UI</div><div>:</div><div>User Interface</div>
+            <div class="font-bold">HTTPS</div><div>:</div><div>Hypertext Transfer Protocol Secure</div>
+            <div class="font-bold">JSON</div><div>:</div><div>JavaScript Object Notation</div>
+        </div>
+    </div>
+
+    <!-- PAGE 11: DEFINITIONS -->
+    <div class="page">
+        <div class="page-num">x</div>
+        <h3 style="font-size: 16pt;" class="text-center">DEFINITIONS</h3>
+        <br>
+        <p><b>1. Fraud Detection</b><br>
+        The process of extracting meaningful patterns from transactional data to identify anomalous or suspicious behavior indicative of fraud.</p>
+        <br>
+        <p><b>2. Explainable AI (SHAP)</b><br>
+        Explainable AI refers to methods that help understand and interpret machine learning models. SHAP specifically breaks down the black-box models to show the exact weight each feature had on the final score.</p>
+        <br>
+        <p><b>3. Transaction Velocity</b><br>
+        A metric tracking the frequency of transactions associated with a user or account within a given 24-hour time window.</p>
+        <br>
+        <p><b>4. Heuristic Rule Engine</b><br>
+        An implementation of decision rules mimicking complex ML algorithms by evaluating inputs such as amount, location, and time to generate dynamic confidence scores.</p>
+        <br>
+        <p><b>5. Glassmorphism</b><br>
+        A UI design trend characterized by translucent, blurred backgrounds with subtle borders to give the illusion of frosted glass.</p>
+    </div>
+
+    <!-- CHAPTER 1 START -->
+    <div class="page text-center">
+        <div class="page-num">1</div>
+        <div class="chapter-title">CHAPTER 1<br><br>INTRODUCTION</div>
+    </div>
+
+    <div class="page">
+        <div class="page-num">2</div>
+        <h3 class="text-center font-bold">1. INTRODUCTION</h3>
+        <h4 class="section-title">1.1 SYSTEM OVERVIEW</h4>
+        <p class="text-justify indent-p">
+            The FraudGuard AI System is an intelligent software platform designed to analyze financial transactions and identify potentially fraudulent activities using advanced simulated artificial intelligence techniques. The system integrates real-time web processing, data visualization, and heuristic machine learning rules to examine different attributes of a transaction. By processing geographical, monetary, and temporal information, the system provides a comprehensive analysis that helps determine the authenticity of a financial event.
+        </p>
+        <p class="text-justify indent-p">
+            The system works by allowing users and administrators to monitor transactions through a web-based interface developed using the Next.js App Router framework. Once a transaction is processed, the system performs several automated tasks including validation, metadata extraction, risk index calculation, and SHAP-based feature importance breakdown. Parameters such as location risk, transaction amount size, and 24-hour velocity are evaluated to output a confidence score ranging from 0-99%.
+        </p>
+
+        <h4 class="section-title">1.2 OBJECTIVE</h4>
+        <p class="text-justify indent-p">
+            The main objective of the FraudGuard AI System is to develop an intelligent system capable of automatically analyzing transaction streams and identifying fraudulent behavior using modern technological stacks. The project aims to examine various components of a transaction to ensure accurate detection of compromised accounts or stolen credit cards. 
+        </p>
+        <p class="text-justify indent-p">
+            The system performs transaction assessment by evaluating factors such as high monetary values, unusual hours, and high-risk geographical locations. Another objective is to implement an Explainability Panel (SHAP) to convert the "black box" prediction into understandable human insights. Additionally, the project focuses on generating automated reports that summarize analytical results, total fraud detected, and safe transactions processed.
+        </p>
+    </div>
+
+    <div class="page">
+        <div class="page-num">3</div>
+        <p class="text-justify">
+            These reports help users clearly understand the analytics without needing technical expertise. Another objective is to design a user-friendly, glassmorphic web interface using React and Tailwind CSS, allowing administrators to easily track live data and view analysis results through an interactive dashboard.
+        </p>
+        <p class="text-justify indent-p">
+            Finally, the project seeks to improve the accuracy, efficiency, and reliability of fraud detection systems by combining modern frontend frameworks, real-time data handling, and simulated machine learning technologies. By integrating multiple analysis techniques into a single platform, the system provides a comprehensive solution for digital security.
+        </p>
+
+        <h4 class="section-title">1.3 SYSTEM STUDY</h4>
+        <h4 class="subsection-title">1.3.1 Existing System</h4>
+        <p class="text-justify indent-p">
+            The existing systems for transaction verification and fraud content detection mainly rely on manual analysis or limited automated legacy rules. In many cases, compliance teams must manually inspect transaction logs to determine whether the activity is authentic or manipulated. This process is time-consuming, inefficient, and often inaccurate, especially when dealing with a large volume of global transactions across banking platforms. Traditional systems typically focus on only one aspect of analysis, such as pure amount limits or basic geolocation blocking, without combining multiple nuanced techniques.
+        </p>
+        <p class="text-justify indent-p">
+            Some currently available tools use basic rules to detect fraud, but these systems often have limitations in scalability and explainability. Many existing solutions flag transactions without informing the user *why* it was flagged, lacking transparency. Additionally, these systems may not perform detailed velocity assessment, which makes it difficult to detect subtle manipulations such as repeated small transactions indicative of bot activity.
+        </p>
+    </div>
+
+    <div class="page">
+        <div class="page-num">4</div>
+        <p class="text-justify indent-p">
+            Another limitation of existing systems is the lack of integrated platforms that combine live dashboards, real-time SHAP explainability, alert engines, and model retraining interfaces in a single framework.
+        </p>
+
+        <h4 class="subsection-title">1.3.2 Literature Survey</h4>
+        <p class="text-justify indent-p">
+            The rapid growth of digital banking has increased the threat of compromised cards, creating serious challenges for verifying the authenticity of financial actions. Researchers have proposed various artificial intelligence and machine learning techniques to detect fraud. Many studies focus on using Random Forest and XGBoost algorithms to analyze behavioral inconsistencies. Deep learning models have been widely used to detect complex manipulation patterns that indicate tampering. 
+        </p>
+        <p class="font-bold">Advantages of Modern Methods:</p>
+        <ul>
+            <li>Machine learning and deep learning algorithms improve detection accuracy compared to manual verification.</li>
+            <li>Advanced visualization techniques allow systems to analyze temporal patterns effectively.</li>
+            <li>Explainable AI (XAI) technologies help convert model outputs into understandable human text for further analysis.</li>
+            <li>Automated systems can process large volumes of transactional data efficiently with low latency.</li>
+        </ul>
+        <p class="font-bold">Disadvantages of Legacy Methods:</p>
+        <ul>
+            <li>Many legacy systems focus only on simple thresholds and ignore complex feature interactions.</li>
+            <li>Lack of real-time alert overlay interfaces for administrators.</li>
+            <li>Inability to seamlessly provide "black-box" breakdown (SHAP) directly in the user UI.</li>
+        </ul>
+    </div>
+
+    <div class="page">
+        <div class="page-num">5</div>
+        <p class="text-justify indent-p">
+            Another area of research focuses on Explainable AI (XAI) for interpreting model behavior. Presenting SHAP values helps administrators trust the system's output. Despite these advancements, many existing studies focus only on backend metrics. Few systems combine real-time visualization, explainability, alert notification, and reporting in a unified Next.js platform. Therefore, the proposed FraudGuard AI System aims to integrate these techniques to improve the reliability and efficiency of fraud detection user interfaces.
+        </p>
+
+        <h4 class="subsection-title">1.3.3 Proposed System</h4>
+        <p class="text-justify indent-p">
+            The proposed FraudGuard AI System is designed to provide an intelligent and automated solution for analyzing transactions and identifying fraudulent activities. The system integrates modern web architecture, data visualization libraries, and heuristic rule engines to perform comprehensive analysis of transaction metadata. 
+        </p>
+        <p class="text-justify indent-p">
+            In the proposed system, administrators access a web-based dashboard developed using the Next.js App Router and React. Once a transaction is processed, the system evaluates different parameters such as transaction amount, geographic location risk, time of day, and 24-hour velocity. The system calculates a dynamic confidence score using a simulated Random Forest/XGBoost heuristic engine. 
+        </p>
+        <p class="text-justify indent-p">
+            The system also extracts the features to populate a SHAP Explainability Panel, clearly showing the positive or negative impact of each variable on the final decision. High-risk transactions trigger the Smart Alert Engine, creating localized notifications for immediate attention. Finally, the system includes a Report Generator for exporting CSV/JSON compliance logs, and a simulated Model Retraining pipeline for continuous learning workflows.
+        </p>
+    </div>
+
+    <div class="page">
+        <div class="page-num">6</div>
+        <h4 class="section-title">1.4 ORGANIZATION OF THE REPORT</h4>
+        <p class="text-justify indent-p">
+            The FraudGuard AI report is divided into seven chapters. The project's goals are introduced in Chapter 1. The software requirements specification, which outlines the system's functional and non-functional needs, is presented in Chapter 2. The software design of the system, including the architecture, data structures, and algorithms employed, is covered in Chapter 3. In Chapter 4, the system's implementation is explained.
+        </p>
+        <p class="text-justify indent-p">
+            This report is organized to clearly explain the development of the AI-based fraud detection system using modern web technologies. It begins with an introduction that defines the aim, objectives, and importance of detecting financial fraud in today's digital world. The literature review section highlights recent advancements.
+        </p>
+        <p class="text-justify indent-p">
+            The methodology section explains the overall approach used in building the system, including component interaction, frontend rendering, and API communication. The system design and implementation section provides details about the architecture, modules, and workflow of the application developed using tools like Next.js, React, and Tailwind CSS. Key modules such as the Transaction Analyzer, Dashboard, and Alert Engine are explained.
+        </p>
+        <p class="text-justify indent-p">
+            The results and discussion section presents the performance of the system. The report concludes with a summary of achievements and suggests future improvements. The appendix includes output screenshots, ensuring the report provides a complete understanding of the project.
+        </p>
+    </div>
+
+    <!-- CHAPTER 2 START -->
+    <div class="page text-center">
+        <div class="page-num">7</div>
+        <div class="chapter-title">CHAPTER 2<br><br>SOFTWARE REQUIREMENTS<br>SPECIFICATION</div>
+    </div>
+
+    <div class="page">
+        <div class="page-num">8</div>
+        <h3 class="text-center font-bold">2. SOFTWARE REQUIREMENTS SPECIFICATION</h3>
+        <h4 class="section-title">2.1 EXTERNAL INTERFACE REQUIREMENTS</h4>
+        <h4 class="subsection-title">2.1.1 User Interfaces</h4>
+        <p class="text-justify indent-p">
+            The FraudGuard AI System provides a user-friendly web interface that allows users to interact with the system easily. The interface is designed using modern web technologies such as React and Tailwind CSS (v4) with custom glassmorphism aesthetics to ensure a responsive and visually appealing premium design. Through the user interface, administrators can monitor live traffic, initiate manual transaction analysis, and view detailed XAI results.
+        </p>
+        <p class="text-justify indent-p">
+            The system includes several interface pages such as the live analytics dashboard, transaction checker, alert panel, and report generator. The live dashboard utilizes `recharts` to render dynamic Area, Bar, and Pie charts that update asynchronously.
+        </p>
+        <p class="font-bold">Dashboard Interface</p>
+        <ul>
+            <li>Acts as the central control panel for monitoring overall system health.</li>
+            <li>Displays system statistics such as total safe transactions, total fraud detected, and current Risk Index.</li>
+            <li>Provides navigation to different system modules via a dark-navy sidebar.</li>
+        </ul>
+        <p class="font-bold">Transaction Analyzer Interface</p>
+        <ul>
+            <li>Allows manual entry of transaction parameters (Amount, Location, Time, Velocity).</li>
+            <li>Provides a simple analyze button for initiating the heuristic risk assessment.</li>
+            <li>Displays the final Fraud Confidence Score and visual SHAP impact bars.</li>
+        </ul>
+    </div>
+
+    <div class="page">
+        <div class="page-num">9</div>
+        <h4 class="subsection-title">2.1.2 Hardware Requirements</h4>
+        <p class="font-bold">&bull; User-End Devices:</p>
+        <p class="text-justify">
+            Administrators can access the system using laptops, desktops, or tablets with minimum specifications of a modern dual-core processor and 4 GB RAM, running an updated web browser (Chrome/Edge/Firefox) supporting modern JavaScript and CSS grid/flexbox.
+        </p>
+        <p class="font-bold">&bull; Backend Servers:</p>
+        <p class="text-justify">
+            The system requires a Node.js hosting environment (such as Vercel or a traditional VPS) with multi-core processors, capable of running Next.js serverless API routes efficiently.
+        </p>
+
+        <h4 class="subsection-title">2.1.3 Software Interfaces</h4>
+        <p class="text-justify">
+            <b>Next.js Framework:</b> High-level React framework used to build the application. It handles routing, server-side rendering, and provides the API infrastructure for transaction processing.<br><br>
+            <b>React Library:</b> The core UI library used for building interactive, state-driven components like dashboards and modals.<br><br>
+            <b>Tailwind CSS:</b> A utility-first CSS framework used for rapid, responsive styling and implementing the glassmorphic aesthetic.<br><br>
+            <b>Recharts:</b> A composable charting library built on React components used for all data visualization (AreaChart, PieChart, BarChart).
+        </p>
+    </div>
+
+    <!-- CHAPTER 3 START -->
+    <div class="page text-center">
+        <div class="page-num">10</div>
+        <div class="chapter-title">CHAPTER 3<br><br>SOFTWARE DESIGN</div>
+    </div>
+
+    <div class="page">
+        <div class="page-num">11</div>
+        <h3 class="text-center font-bold">3. SOFTWARE DESIGN</h3>
+        <h4 class="section-title">3.1 ARCHITECTURAL DESIGN</h4>
+        <p class="text-justify indent-p">
+            The FraudGuard AI System employs a modern client-server architecture nested within the Next.js App Router paradigm. This integrates frontend rendering interfaces, backend API routes, and a simulated inference engine to provide reliable detection of manipulated or fraudulent transactions.
+        </p>
+        <p class="text-justify indent-p">
+            The architecture ensures scalability, responsiveness, and secure handling of data. The system is organized into major layers: User Interface Components (React), State Management (React Hooks Context), API Layer (Next.js `/api/transactions`), and the Heuristic Rule Engine (simulating ML logic).
+        </p>
+
+        <h4 class="section-title">3.2 DECOMPOSITION DESCRIPTION</h4>
+        <h4 class="subsection-title">3.2.1 AI-Based Transaction Analysis</h4>
+        <p class="text-justify indent-p">
+            This module is the core functionality, enabling automated calculation of a transaction's risk. The engine evaluates attributes based on high-risk geographic zones, suspicious monetary ranges, and high-velocity transactional frequency. Outputs are fed directly into the SHAP visualizer.
+        </p>
+        
+        <h4 class="subsection-title">3.2.2 Smart Alert Engine</h4>
+        <p class="text-justify indent-p">
+            An asynchronous notification component that constantly polls for severe security breaches. It generates pulsing UI toast notifications for Critical and Medium alerts, storing a history log for administrator review and dismissal.
+        </p>
+    </div>
+
+    <div class="page">
+        <div class="page-num">12</div>
+        <h4 class="section-title">3.3 COMPONENT DESIGN</h4>
+        <p class="text-justify indent-p">
+            The system comprises specialized React components. The <code>AnalyticsChart.tsx</code> manages data fetching and rendering of Recharts. The <code>TransactionChecker.tsx</code> handles form input validation for manual checks. The <code>ExplainabilityPanel.tsx</code> takes the output scores and calculates visual bar widths for feature importance display.
+        </p>
+
+        <h4 class="section-title">3.4 DATA DESIGN</h4>
+        <p class="text-justify indent-p">
+            Data is currently managed through simulated continuous endpoints and structured JSON payloads. The Transaction Metadata includes Amount, Location, User ID, Timestamp, and Velocity. Responses from the API contain the Risk Score, Flag Status, and a list of identified Risk Factors. Future scalability allows these endpoints to connect directly to PostgreSQL databases and Python ML Microservices.
+        </p>
+    </div>
+
+    <!-- CHAPTER 4 & 5 START -->
+    <div class="page text-center">
+        <div class="page-num">13</div>
+        <div class="chapter-title">CHAPTER 4 & 5<br><br>IMPLEMENTATION & TESTING</div>
+    </div>
+
+    <div class="page">
+        <div class="page-num">14</div>
+        <h3 class="text-center font-bold">4. IMPLEMENTATION & 5. TESTING</h3>
+        <p class="text-justify indent-p">
+            The implementation phase focuses on converting the React/Next.js component designs into functional, aesthetic modules using Tailwind CSS and Recharts. Custom hooks like <code>useEffect</code> were implemented to manage the real-time polling of analytics data, ensuring the dashboard remains alive without requiring browser refreshes.
+        </p>
+        <h4 class="section-title">5.1 UNIT & SYSTEM TESTING</h4>
+        <p class="text-justify indent-p">
+            Testing evaluated the system's ability to appropriately flag constraints. Unit testing for the heuristic engine verified that transactions exceeding $10,000 were correctly assigned a high-risk multiplier. Geographic blocking rules were tested against simulated inputs from known high-risk regions, confirming accurate confidence score elevation.
+        </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Test Case</th>
+                    <th>Input Scenario</th>
+                    <th>Expected Result</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Velocity Check</td>
+                    <td>10+ transactions in 24h</td>
+                    <td>Flagged as High Risk, Score > 80%</td>
+                    <td>Passed</td>
+                </tr>
+                <tr>
+                    <td>Amount Check</td>
+                    <td>$15,000 Transaction</td>
+                    <td>Review or Block Recommended</td>
+                    <td>Passed</td>
+                </tr>
+                <tr>
+                    <td>Safe Transaction</td>
+                    <td>$45 Local Grocery, 2pm</td>
+                    <td>Approved, Score < 20%</td>
+                    <td>Passed</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- CHAPTER 6 & 7 START -->
+    <div class="page text-center">
+        <div class="page-num">15</div>
+        <div class="chapter-title">CHAPTER 6 & 7<br><br>RESULTS & CONCLUSION</div>
+    </div>
+
+    <div class="page">
+        <div class="page-num">16</div>
+        <h3 class="text-center font-bold">6. RESULTS AND OBSERVATIONS</h3>
+        <p class="text-justify indent-p">
+            The FraudGuard AI Dashboard successfully processed simulated high-frequency transaction data, rendering real-time analytics without frontend lag. The glassmorphism design provided a premium, authoritative feel suitable for enterprise financial security. The SHAP explainability panel successfully demystified the risk scores, allowing administrators to instantly understand the reasoning behind blocked transactions.
+        </p>
+        
+        <h3 class="text-center font-bold" style="margin-top: 50px;">7. CONCLUSION AND FUTURE WORK</h3>
+        <p class="text-justify indent-p">
+            The project demonstrates the power of integrating modern web frameworks like Next.js with data visualization and simulated ML logic to create a robust fraud detection interface. Future work will involve replacing the heuristic simulation with a fully trained Random Forest/XGBoost Python microservice (via Flask/FastAPI), connecting a production database, and expanding the alert mechanisms to include SMS and Email triggers.
+        </p>
+    </div>
+
+    <!-- APPENDIX -->
+    <div class="page text-center">
+        <div class="page-num">17</div>
+        <div class="chapter-title">APPENDIX<br><br>SCREENSHOTS</div>
+    </div>
+
+    <div class="page">
+        <div class="page-num">18</div>
+        <h3 class="text-center font-bold">A1: DASHBOARD MAIN PAGE</h3>
+        <p class="text-center">This page provides a real-time eagle-eye view of system traffic.</p>
+        <div class="img-placeholder">
+            [Insert Screenshot of Dashboard Main Page]
+        </div>
+        
+        <br><br>
+        <h3 class="text-center font-bold">A2: EXPLAINABILITY PANEL (SHAP)</h3>
+        <p class="text-center">Displays exact feature impact on the transaction risk score.</p>
+        <div class="img-placeholder">
+            [Insert Screenshot of Explainability Panel]
+        </div>
+    </div>
+
+</body>
+</html>

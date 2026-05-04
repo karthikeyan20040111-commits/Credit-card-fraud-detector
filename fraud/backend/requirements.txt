@@ -9,6 +9,7 @@ xgboost
 scikit-learn
 imbalanced-learn
 shap
+joblib
 tensorflow
 networkx
 python-louvain

@@ -1,4 +1,3 @@
-/* eslint-disable */
 'use client';
 
 import { Shield, TrendingUp, AlertTriangle, CheckCircle } from 'lucide-react';
@@ -9,12 +8,11 @@ interface StatCardProps {
   value: string;
   subtitle: string;
   icon: React.ReactNode;
-  color: string;
   bg: string;
   trend?: string;
 }
 
-function StatCard({ title, value, subtitle, icon, color, bg, trend }: StatCardProps) {
+function StatCard({ title, value, subtitle, icon, bg, trend }: StatCardProps) {
   return (
     <div className="glass-card" style={{ padding: 20 }}>
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 14 }}>
@@ -60,7 +58,6 @@ export function FraudDetectionDashboard() {
           value={counts.total.toLocaleString()}
           subtitle="Today"
           icon={<TrendingUp size={20} color="#818cf8" />}
-          color="#818cf8"
           bg="rgba(99,102,241,0.15)"
           trend="+8.2%"
         />
@@ -69,7 +66,6 @@ export function FraudDetectionDashboard() {
           value={counts.legit.toLocaleString()}
           subtitle={`${((counts.legit / counts.total) * 100).toFixed(1)}% Safe`}
           icon={<CheckCircle size={20} color="#10b981" />}
-          color="#10b981"
           bg="rgba(16,185,129,0.15)"
           trend="+99.1%"
         />
@@ -78,7 +74,6 @@ export function FraudDetectionDashboard() {
           value={counts.fraud.toLocaleString()}
           subtitle={`${((counts.fraud / counts.total) * 100).toFixed(2)}% Suspicious`}
           icon={<AlertTriangle size={20} color="#ef4444" />}
-          color="#ef4444"
           bg="rgba(239,68,68,0.15)"
           trend="+2.1%"
         />
@@ -87,7 +82,6 @@ export function FraudDetectionDashboard() {
           value={`$${(counts.saved / 1000).toFixed(0)}K`}
           subtitle="Last 30 days"
           icon={<Shield size={20} color="#22d3ee" />}
-          color="#22d3ee"
           bg="rgba(34,211,238,0.15)"
           trend="+12.4%"
         />

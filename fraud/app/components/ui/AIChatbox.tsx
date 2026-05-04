@@ -24,7 +24,7 @@ export function AIChatbox() {
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -34,7 +34,7 @@ export function AIChatbox() {
     scrollToBottom();
   }, [messages, isTyping]);
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (!inputValue.trim()) return;
 
     const userMsg: Message = {
@@ -48,16 +48,14 @@ export function AIChatbox() {
     setInputValue('');
     setIsTyping(true);
 
-    // Simulate AI response
-    setTimeout(() => {
-      let aiText = "I'm analyzing the latest transaction data...";
-      const lowerInput = userMsg.text.toLowerCase();
-      
-      if (lowerInput.includes('fraud') || lowerInput.includes('risk')) {
-        aiText = "Based on our latest models, transaction risk has reduced by 12% in the last 24 hours. The SHAP explainability shows IP location mismatch as the primary risk factor for recent flags.";
-      } else if (lowerInput.includes('hello') || lowerInput.includes('hi')) {
-        aiText = "Hello there! Is there a specific transaction or user profile you'd like me to investigate?";
-      }
+    try {
+      const res = await fetch('http://localhost:8000/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: userMsg.text }),
+      });
+      const data = res.ok ? await res.json() : null;
+      const aiText = data?.reply ?? "I'm analyzing data... please ensure the backend is running.";
 
       setMessages(prev => [...prev, {
         id: (Date.now() + 1).toString(),
@@ -65,9 +63,18 @@ export function AIChatbox() {
         text: aiText,
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       }]);
+    } catch {
+      setMessages(prev => [...prev, {
+        id: (Date.now() + 1).toString(),
+        sender: 'ai',
+        text: "⚠️ Backend not reachable. Start the FastAPI server with `uvicorn main:app --reload`.",
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      }]);
+    } finally {
       setIsTyping(false);
-    }, 1500);
+    }
   };
+
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
@@ -75,7 +82,7 @@ export function AIChatbox() {
     }
   };
 
-  const mainBg = theme === 'dark' ? '#1e293b' : '#ffffff';
+  const mainBg = resolvedTheme === 'dark' ? '#1e293b' : '#ffffff';
   
   return (
     <>

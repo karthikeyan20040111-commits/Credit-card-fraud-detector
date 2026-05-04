@@ -46,34 +46,61 @@ const initialChartData = [
 ];
 
 export function FraudDetectionDashboard() {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const [counts, setCounts] = useState({
     total: 12847,
     legit: 12695,
     fraud: 152,
     saved: 284550,
+    accuracy: 0.98,
+    model_version: 'v1.2.0',
   });
-  
+
   const [chartData, setChartData] = useState(initialChartData);
 
+  // Fetch live stats from backend
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const res = await fetch('http://localhost:8000/stats');
+        if (res.ok) {
+          const data = await res.json();
+          setCounts({
+            total:         data.total  ?? 12847,
+            legit:         data.legit  ?? 12695,
+            fraud:         data.fraud  ?? 152,
+            saved:         data.saved  ?? 284550,
+            accuracy:      data.accuracy ?? 0.98,
+            model_version: data.model_version ?? 'v1.2.0',
+          });
+        }
+      } catch {
+        /* backend offline — keep defaults */
+      }
+    };
+    fetchStats();
+    const poll = setInterval(fetchStats, 10000); // refresh every 10s
+    return () => clearInterval(poll);
+  }, []);
+
+  // Local animated increment (visual only)
   useEffect(() => {
     const interval = setInterval(() => {
       setCounts((prev) => ({
-        total: prev.total + Math.floor(Math.random() * 5),
-        legit: prev.legit + Math.floor(Math.random() * 5),
-        fraud: prev.fraud + (Math.random() > 0.8 ? 1 : 0),
-        saved: prev.saved + Math.floor(Math.random() * 500),
+        ...prev,
+        total: prev.total + Math.floor(Math.random() * 3),
+        legit: prev.legit + Math.floor(Math.random() * 3),
+        fraud: prev.fraud + (Math.random() > 0.85 ? 1 : 0),
+        saved: prev.saved + Math.floor(Math.random() * 300),
       }));
 
-      // Simulate live chart data
-      setChartData(prev => {
+      setChartData((prev) => {
         const newData = [...prev.slice(1)];
         const lastTime = prev[prev.length - 1].time;
         const [hh, mm] = lastTime.split(':').map(Number);
         const nextMin = (mm + 5) % 60;
         const nextH = nextMin === 0 ? (hh + 1) % 24 : hh;
         const timeStr = `${String(nextH).padStart(2, '0')}:${String(nextMin).padStart(2, '0')}`;
-        
         newData.push({
           time: timeStr,
           volume: Math.floor(Math.random() * 200) + 150,
@@ -85,16 +112,25 @@ export function FraudDetectionDashboard() {
     return () => clearInterval(interval);
   }, []);
 
-  const tooltipBg = theme === 'dark' ? '#1e293b' : '#ffffff';
-  const tooltipBorder = theme === 'dark' ? '#334155' : '#e2e8f0';
-  const tooltipText = theme === 'dark' ? '#f8fafc' : '#0f172a';
+  const tooltipBg = resolvedTheme === 'dark' ? '#1e293b' : '#ffffff';
+  const tooltipBorder = resolvedTheme === 'dark' ? '#334155' : '#e2e8f0';
+  const tooltipText = resolvedTheme === 'dark' ? '#f8fafc' : '#0f172a';
 
   return (
     <div id="dashboard">
       <div className="section-header">
         <div>
           <h2 className="section-title">Overview Dashboard</h2>
-          <p className="section-subtitle">Live metrics — updates every 5 seconds</p>
+          <p className="section-subtitle">
+            Live metrics — updates every 5 s &nbsp;·&nbsp;
+            <span style={{ color: '#4f46e5', fontWeight: 600 }}>
+              Model {counts.model_version}
+            </span>
+            &nbsp;·&nbsp; AUC-ROC:&nbsp;
+            <span style={{ color: '#059669', fontWeight: 600 }}>
+              {(counts.accuracy * 100).toFixed(1)}%
+            </span>
+          </p>
         </div>
         <span className="badge badge-success">
           <span
@@ -157,18 +193,18 @@ export function FraudDetectionDashboard() {
             <AreaChart data={chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
               <defs>
                 <linearGradient id="colorVolume" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#4f46e5" stopOpacity={0.3}/>
-                  <stop offset="95%" stopColor="#4f46e5" stopOpacity={0}/>
+                  <stop offset="5%" stopColor="#4f46e5" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="#4f46e5" stopOpacity={0} />
                 </linearGradient>
                 <linearGradient id="colorFraud" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#ef4444" stopOpacity={0.3}/>
-                  <stop offset="95%" stopColor="#ef4444" stopOpacity={0}/>
+                  <stop offset="5%" stopColor="#ef4444" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="#ef4444" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--color-border)" />
               <XAxis dataKey="time" axisLine={false} tickLine={false} tick={{ fill: 'var(--color-text-muted)', fontSize: 12 }} />
               <YAxis axisLine={false} tickLine={false} tick={{ fill: 'var(--color-text-muted)', fontSize: 12 }} />
-              <Tooltip 
+              <Tooltip
                 contentStyle={{ backgroundColor: tooltipBg, borderColor: tooltipBorder, color: tooltipText, borderRadius: '8px' }}
                 itemStyle={{ color: tooltipText }}
               />
